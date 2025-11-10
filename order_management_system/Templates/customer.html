@@ -1,0 +1,185 @@
+
+
+{% block body %}
+
+<head>
+  <meta charset="UTF-8">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      color: #333;
+      margin: 0;
+    }
+
+    h2 {
+      text-align: center;
+      color: #0b3d91;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      transition: transform 0.3s ease;
+    }
+
+    form:hover {
+      transform: translateY(-3px);
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      color: #0b3d91;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #0b3d91;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #0078d7;
+      box-shadow: 0 0 5px rgba(0, 120, 215, 0.3);
+    }
+
+    button, input[type="submit"] {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      background: #0078d7;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover, input[type="submit"]:hover {
+      background: #005fa3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      margin-top: 30px;
+    }
+
+    th, td {
+      padding: 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #0078d7;
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: #f0f4f8;
+    }
+
+    /* Stylish Edit/Delete Buttons */
+    .btn {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      color: #fff;
+      margin-right: 5px;
+    }
+
+    .btn-edit {
+      background-color: #28a745; /* Green */
+    }
+
+    .btn-edit:hover {
+      background-color: #218838;
+    }
+
+    .btn-delete {
+      background-color: #dc3545; /* Red */
+    }
+
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
+
+    @media (max-width: 768px) {
+      form, table {
+        width: 95%;
+      }
+
+      th, td {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Add customer</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{from_data}}
+    <input type="submit" value="Submit">
+  </form>
+
+  <h2>customer  List</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>customer_name</th>
+        <th>email</th>
+        <th> phone</th>
+        <th>address</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in customer_data %}
+      <tr>
+        <td>{{ i.customer_name }}</td>
+        <td>{{ i.email }}</td>
+        <td>{{ i.phone }}</td>
+        <td>{{ i.address }}</td>
+        <td>
+          <a href="{% url 'editcustomerpage' i.id %}" class="btn btn-edit">✏️ Edit</a>
+          <a href="{% url 'deletecustomerpage' i.id %}" class="btn btn-delete">🗑️ Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</body>
+{% endblock body %}
